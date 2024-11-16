@@ -16,7 +16,7 @@
       </template>
       <menu-content :nav-data="menu" />
       <template #operations>
-        <span :class="versionCls"> {{ !collapsed ? 'TDesign Starter' : '' }} {{ pgk.version }} </span>
+        <span :class="versionCls"> {{ !collapsed ? 'Suanli OPS' : '' }} {{ pkg.version }} </span>
       </template>
     </t-menu>
     <div :class="`${prefix}-side-nav-placeholder${collapsed ? '-hidden' : ''}`"></div>
@@ -37,7 +37,7 @@ import { getActive } from '@/router';
 import { useSettingStore } from '@/store';
 import type { MenuRoute, ModeType } from '@/types/interface';
 
-import pgk from '../../../package.json';
+import pkg from '../../../package.json';
 import MenuContent from './MenuContent.vue';
 
 const MIN_POINT = 992 - 1;

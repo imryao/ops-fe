@@ -161,7 +161,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         // 超时
         timeout: 10 * 1000,
         // 携带Cookie
-        withCredentials: true,
+        withCredentials: false,
         // 头信息
         headers: { 'Content-Type': ContentTypeEnum.Json },
         // 数据处理方式
