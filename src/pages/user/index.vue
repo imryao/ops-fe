@@ -3,7 +3,7 @@
     <t-col :flex="3">
       <div class="user-left-greeting">
         <div>
-          Hi，Image
+          Hi，{{ userStore.userInfo.name }}
           <span class="regular"> {{ t('pages.user.markDay') }}</span>
         </div>
         <img src="@/assets/assets-tencent-logo.png" class="logo" />
@@ -50,8 +50,8 @@
 
     <t-col :flex="1">
       <t-card class="user-intro" :bordered="false">
-        <t-avatar size="80px">T</t-avatar>
-        <div class="name">My Account</div>
+        <t-avatar size="80px" :image="userStore.userInfo.picture">T</t-avatar>
+        <div class="name">{{ userStore.userInfo.name }}</div>
         <div class="position">{{ t('pages.user.personalInfo.position') }}</div>
       </t-card>
 
@@ -101,7 +101,7 @@ import ProductBIcon from '@/assets/assets-product-2.svg';
 import ProductCIcon from '@/assets/assets-product-3.svg';
 import ProductDIcon from '@/assets/assets-product-4.svg';
 import { t } from '@/locales';
-import { useSettingStore } from '@/store';
+import { useSettingStore, useUserStore } from '@/store';
 import { changeChartsTheme } from '@/utils/color';
 import { LAST_7_DAYS } from '@/utils/date';
 
@@ -113,6 +113,7 @@ echarts.use([GridComponent, TooltipComponent, LineChart, CanvasRenderer, LegendC
 let lineContainer: HTMLElement;
 let lineChart: echarts.ECharts;
 const store = useSettingStore();
+const userStore = useUserStore();
 const chartColors = computed(() => store.chartColors);
 
 const onLineChange = (value: DateRangeValue) => {

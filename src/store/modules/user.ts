@@ -1,9 +1,13 @@
 import { defineStore } from 'pinia';
 
+import { getUserinfo } from '@/api/open';
 import { usePermissionStore } from '@/store';
 import type { UserInfo } from '@/types/interface';
 
 const InitUserInfo: UserInfo = {
+  email: '',
+  username: '',
+  picture: '',
   name: '', // 用户名，用于展示在页面右上角头像处
   roles: [], // 前端权限模型使用 如果使用请配置modules/permission-fe.ts使用
 };
@@ -11,6 +15,7 @@ const InitUserInfo: UserInfo = {
 export const useUserStore = defineStore('user', {
   state: () => ({
     token: '', // 默认token不走权限
+    exp: new Date(),
     userInfo: { ...InitUserInfo },
   }),
   getters: {
@@ -55,21 +60,21 @@ export const useUserStore = defineStore('user', {
       }
     },
     async getUserInfo() {
-      const mockRemoteUserInfo = async (token: string) => {
-        if (token === 'main_token') {
-          return {
-            name: 'Tencent',
-            roles: ['all'], // 前端权限模型使用 如果使用请配置modules/permission-fe.ts使用
-          };
-        }
-        return {
-          name: 'td_dev',
-          roles: ['UserIndex', 'DashboardBase', 'login'], // 前端权限模型使用 如果使用请配置modules/permission-fe.ts使用
-        };
+      if (new Date() > this.exp) {
+        await this.logout();
+        return;
+      }
+      if (this.userInfo.email && this.userInfo.username && this.userInfo.name && this.userInfo.picture) {
+        return;
+      }
+      const { email, username, nickname, picture } = await getUserinfo();
+      this.userInfo = {
+        email,
+        username,
+        name: nickname,
+        picture,
+        roles: ['all'],
       };
-      const res = await mockRemoteUserInfo(this.token);
-
-      this.userInfo = res;
     },
     async logout() {
       this.token = '';

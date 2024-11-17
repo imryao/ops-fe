@@ -17,6 +17,11 @@ const defaultRouterList: Array<RouteRecordRaw> = [
     component: () => import('@/pages/login/index.vue'),
   },
   {
+    path: '/oauth2/callback',
+    name: 'OAuth2Callback',
+    component: () => import('@/pages/login/oauth2/callback/index.vue'),
+  },
+  {
     path: '/',
     redirect: '/dashboard/base',
   },
